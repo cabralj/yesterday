@@ -1,3 +1,9 @@
+*.JPG
+*.jpg
+*.TIFF
+*.PNG
+*.png
+.DS_Store
 *.gem
 *.rbc
 /.config
