@@ -1,14 +1,18 @@
 var fs = require("fs");
 var path = require('path');
+var ExifImage = require('exif').ExifImage;
 
 var root = (typeof(process.argv[2]) === "undefined") ? "./" : process.argv[2];
 
 var count = 0;
 var total = 0;
-
-console.log("-----------Build-02.js-------------");
+var total_images = 0;
 
 var walkDir = function(r){
+
+	total++;
+
+	console.log("--- Walking " + root + "-------------");
 
 	fs.readdir(r, function(err, list) {
 
@@ -30,9 +34,12 @@ var walkDir = function(r){
 
 				if (isFile){
 
-					total++;
+					total_images++;
+
 					if (/(jpg|JPG|jpeg|JPEG)/.test(path.extname(p))){
-						console.log(total + " " + p);
+
+						console.log(" --- " + total_images + " " + p);
+
 					}
 
 				}
