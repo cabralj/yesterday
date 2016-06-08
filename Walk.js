@@ -1,22 +1,47 @@
-import * as fs from 'fs';
-import * as path from 'path';
+var fs = require("fs");
+var path = require('path');
 
-function fileList(dir, excludeDirs?) {
-    return fs.readdirSync(dir).reduce(function (list, file) {
-        const name = path.join(dir, file);
-        if (fs.statSync(name).isDirectory()) {
-            if (excludeDirs && excludeDirs.length) {
-                excludeDirs = excludeDirs.map(d => path.normalize(d));
-                const idx = name.indexOf(path.sep);
-                const directory = name.slice(0, idx === -1 ? name.length : idx);
-                if (excludeDirs.indexOf(directory) !== -1)
-                    return list;
-            }
-            return list.concat(fileList(name, excludeDirs));
-        }
-        return list.concat([name]);
-    }, []);
-}
+var root = (typeof(process.argv[2]) === "undefined") ? "./" : process.argv[2];
+
+var count = 0;
+var total = 0;
+
+console.log("-----------Build-02.js-------------");
+
+var walkDir = function(r){
+
+	fs.readdir(r, function(err, list) {
+
+		list.forEach(function(filename, idx, array){
+
+			var p = path.join(r, filename);
+			var isDir = fs.lstatSync(p).isDirectory();
+			var isFile = fs.lstatSync(p).isFile();
 
 
-console.log(fileList('../', ['node_modules', 'typings', 'bower_components']));
+			if(! /^\..*/.test(filename) && ! /Link.*/.test(filename)) {
+
+				count++;
+
+				if (isDir){
+					console.log(p);
+					walkDir(p);
+				}
+
+				if (isFile){
+
+					total++;
+					if (/(jpg|JPG|jpeg|JPEG)/.test(path.extname(p))){
+						console.log(total + " " + p);
+					}
+
+				}
+
+			}
+
+		});
+	
+	});
+};
+
+walkDir(root);
