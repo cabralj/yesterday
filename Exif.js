@@ -20,6 +20,7 @@ try {
 // EXAMPLE IMAGE EXIF DATA
 /*
 
+
 --ImageDescription
 Orientation: 1,
 XResolution: 72,
