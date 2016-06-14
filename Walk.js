@@ -1,14 +1,15 @@
 
+
 var fs = require("graceful-fs");
 var path = require('path');
 var ExifImage = require('exif').ExifImage;
+var prompt = require('prompt');
 
 var root = (typeof(process.argv[2]) === "undefined") ? "./" : process.argv[2];
 
 var count = 0;
 var total = 0;
 var total_images = 0;
-//var start = true;
 
 var file_name = "Data.txt";
 
@@ -40,10 +41,10 @@ var walkDir = function(r, t){
 						if (/(jpg|JPG|jpeg|JPEG)/.test(path.extname(p))){
 							
 							total_images++;
-
-							var line = p;
-
-							console.log(total_images + "\t" + line);
+							var line = total_images + "\t";
+							line += p + "\t";
+							
+							console.log(line);
 
 							fs.writeFile(file_name, line+"\n", {'flag':'a'}, function(err) {
 								if (err) { return console.error(err); }
@@ -61,7 +62,28 @@ var walkDir = function(r, t){
 	});
 };
 
-fs.writeFile(file_name, '', {'flag':'w'}, function(err) {
-		walkDir(root, true);
+
+
+
+
+prompt.start();
+
+prompt.get(['root','file_name'], function (err, result) {
+
+	if (err) {
+		console.log(err);
+		return true;
 	}
-);
+
+	root = result.root;
+	file_name = result.file_name;
+
+	fs.writeFile(file_name, '', {'flag':'w'}, function(err) {
+			walkDir(root, true);
+		}
+	);
+
+});
+
+
+
