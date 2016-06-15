@@ -2,7 +2,12 @@
 
 A better to display visualize personal photos and videos. 
 
+**Installation**
 
+    $ npm install graceful-fs
+    $ npm install prompt
+    $ npm install csv
+    $ npm install exif
 
 **Walk.js**
 
@@ -21,4 +26,4 @@ Extracts Exif data out of JPG images
 
 Determine filetype by reading file body.
 
-    $ node Walk ~/Pictures
+    $ node ImageCheck ./Image.jpg
